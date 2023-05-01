@@ -44,7 +44,7 @@ class ScheduleDBService:
         schedules = await self.db.find(Schedule.student_id == student_id).to_list()
         schedules_dto = []
         for schedule in schedules:
-            courses = await self.course_db_service.get_opened_courses_by_course_ids(schedule.courses, term)
+            courses = await self.course_db_service.get_opened_courses_by_ids(schedule.courses)
             schedule_dto = ScheduleDto()
             schedule_dto.id = str(schedule.id)
             schedule_dto.name = schedule.name

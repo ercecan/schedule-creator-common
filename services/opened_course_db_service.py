@@ -24,6 +24,20 @@ class OpenedCourseDBService:
         opened_course_db.course = course_db
         return opened_course_db
 
+    async def get_opened_courses_by_ids(self, opened_course_ids: List[str]) -> List[OpenedCourseSearchDto]:
+        opened_course_dtos = []
+        ids = [ObjectId(id) for id in opened_course_ids]
+        opened_courses = await self.db.find({"_id": {"$in": ids}}).to_list()
+
+        course_ids = [o.course_id for o in opened_courses]
+        courses = await self.course_db_service.get_courses_by_ids(course_ids)
+        for opened_course in opened_courses:
+            for course in courses:
+                if str(course.id) == opened_course.course_id:
+                    dto = self.create_opened_course_dto(opened_course, course)
+                    opened_course_dtos.append(dto)
+        return opened_course_dtos
+
     async def get_opened_courses_by_course_ids(self, course_ids: List[str], term: Term) -> List[OpenedCourseSearchDto]:
         opened_course_dtos = []
         opened_courses = await self.db.find(In(OpenedCourse.course_id, course_ids), OpenedCourse.term == term).to_list()
