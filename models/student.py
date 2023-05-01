@@ -19,7 +19,7 @@ class Student(Document):
     taken_courses: Optional[List[TakenCourse]] = None # Dictionary olursa, O(1) search
     taken_credits: Optional[int] = 0
     remaining_credits: Optional[int] = 0
-    remaining_tags: Optional[dict] = {tag: 0 for tag in Tags}
+    remaining_tags: Optional[dict] = {tag.value: 0 for tag in Tags}
     school_id: Optional[str] = None
     major: List[Major] = None
     year: Optional[int] = 0

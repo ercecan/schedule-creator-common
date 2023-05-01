@@ -40,6 +40,6 @@ class StudentRegisterDto(BaseModel):
     password: str
     gpa: Optional[float] = 0.0
     school: Optional[str] = None
-    major: List[str] = None
+    major: List[dict] = None
     year: Optional[int] = 0
     student_type: str = StudentTypes.BACHELOR.value
