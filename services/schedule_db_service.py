@@ -3,6 +3,7 @@ from models.course import FuturePlan
 from bson import ObjectId
 from typing import List
 from dtos.schedule_dto import ScheduleDto
+from models.time import Term
 from services.opened_course_db_service import OpenedCourseDBService
 class ScheduleDBService:
 
@@ -39,11 +40,11 @@ class ScheduleDBService:
         schedule_dto.student_id = schedule.student_id
         return schedule_dto
     
-    async def get_schedules_by_student_id(self, student_id: str) -> List[ScheduleDto]:
-        schedules = await self.db.find(Schedule.student_id == student_id)
+    async def get_schedules_by_student_id(self, student_id: str, term: Term) -> List[ScheduleDto]:
+        schedules = await self.db.find(Schedule.student_id == student_id).to_list()
         schedules_dto = []
         for schedule in schedules:
-            courses = await self.course_db_service.get_opened_courses_by_course_ids(schedule.courses)
+            courses = await self.course_db_service.get_opened_courses_by_course_ids(schedule.courses, term)
             schedule_dto = ScheduleDto()
             schedule_dto.id = str(schedule.id)
             schedule_dto.name = schedule.name
