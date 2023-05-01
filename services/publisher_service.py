@@ -17,7 +17,7 @@ class Publisher():
     def publish(self, message, headers):
         self.connection = pika.BlockingConnection(self.connection_parameters)
         self.channel = self.connection.channel()
-        self.publish_queue = self.channel.queue_declare(queue=self.publish_queue_name)
+        self.publish_queue = self.channel.queue_declare(queue=self.publish_queue_name, durable=True)
         self.callback_queue = self.publish_queue.method.queue
         self.channel.basic_publish(
             exchange='',

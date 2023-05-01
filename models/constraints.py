@@ -56,7 +56,7 @@ class YearConstraint(Constraint[OpenedCourseSearchDto, bool]):
         years = list(assigned_courses.keys())[-1].course.year_restrictions
         if years == None:
             return True
-        return all(i <= student.year for i in years)
+        return any(i <= student.year for i in years)
 
 class MajorConstraint(Constraint[OpenedCourseSearchDto, bool]):
     def satisfied(self, assigned_courses: List[OpenedCourseSearchDto], student: StudentSearchDto) -> bool:

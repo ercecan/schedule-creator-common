@@ -37,7 +37,10 @@ class StudentDBService:
         await student.delete()
     
     async def get_taken_courses(self, student_id: str) -> List[TakenCourseDto]:
+
         student = await self.get_student_by_id(student_id)
+        if student.taken_courses is None:
+            return []
         ids = [ObjectId(taken.course_id) for taken in student.taken_courses]
         courses =  self.course_db_service.get_courses_by_ids(ids)
         taken_courses = []
@@ -48,5 +51,5 @@ class StudentDBService:
         return taken_courses
     
     async def get_remaining_courses_ids(self, student_id: str) -> List[Course]:
-        student = await self.get_student_by_id(student_id)
+        student = await self.get_student_by_student_id(student_id)
         return student.remaining_courses
