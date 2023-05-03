@@ -13,6 +13,7 @@ class Schedule(Document):
     future_plan: Optional[List[FuturePlan]] = None
     preferences: Optional[List[dict]] = None
     student_id: Optional[str] = None
+    time: Optional[datetime] = datetime.now()
 
     class Settings:
         name = "schedules"
