@@ -40,8 +40,7 @@ class ScheduleDBService:
         schedule_dto.student_id = schedule.student_id
         return schedule_dto
     
-    async def get_schedules_by_student_id(self, payload: dict) -> List[ScheduleDto]:
-        print(payload)
+    async def get_schedules_by_student_id(self, student_id: str, term: Term) -> List[ScheduleDto]:
         schedules = await self.db.find(Schedule.student_id == student_id).to_list()
         schedules_dto = []
         for schedule in schedules:
