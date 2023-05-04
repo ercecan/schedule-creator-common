@@ -42,6 +42,7 @@ class OpenedCourseDBService:
         opened_course_dtos = []
         opened_courses = await self.db.find(In(OpenedCourse.course_id, course_ids), OpenedCourse.term == term).to_list()
         courses = await self.course_db_service.get_courses_by_ids(course_ids)
+        print("print", opened_courses, courses)
         for opened_course in opened_courses:
             for course in courses:
                 if str(course.id) == opened_course.course_id:
