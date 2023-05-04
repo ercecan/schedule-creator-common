@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setuptools.setup(
     name='schedule-creator-common',
-    version='0.0.2',
+    version='0.0.3',
     authors=['Barış Emre Mişe', 'Ömer Faruk Özkan', 'Erce Can Bektüre'],
     author_email='mise18@itu.edu.tr',
     description='Common Package of Schedule Creator Graduation Project',
