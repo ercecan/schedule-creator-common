@@ -3,6 +3,8 @@ from .course import FuturePlan
 from .time import Term
 from .preferences import Preference
 from beanie import Document
+from datetime import datetime
+
 
 
 class Schedule(Document):
