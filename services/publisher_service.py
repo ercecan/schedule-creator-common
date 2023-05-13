@@ -11,7 +11,10 @@ class Publisher():
         self.publish_queue_name = queue_name
         self.host = os.getenv('RABBITMQ_HOST') or 'rabbitmq'
         print(self.host)
-        self.connection_parameters=pika.ConnectionParameters(host=self.host)
+        self.username = os.getenv('RABBITMQ_USERNAME') or 'admin'
+        self.password = os.getenv('RABBITMQ_PASSWORD') or 'admin'
+        self.credentials=pika.PlainCredentials(username=self.username, password=self.password)
+        self.connection_parameters=pika.ConnectionParameters(host=self.host,credentials=self.credentials)
         self.connection = None
         self.channel = None
         self.publish_queue = None
