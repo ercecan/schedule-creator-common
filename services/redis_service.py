@@ -3,9 +3,9 @@ import redis
 from dotenv import load_dotenv, find_dotenv
 import json
 
+load_dotenv(find_dotenv())
 
 class RedisService:
-    load_dotenv(find_dotenv())
 
     def __init__(self):
         self.host = os.getenv('REDIS_HOST')
