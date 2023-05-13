@@ -2,12 +2,16 @@ import json
 import uuid
 import pika
 import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 class Publisher():
     def __init__(self, queue_name: str):
         self.is_running = True
         self.publish_queue_name = queue_name
-        self.connection_parameters=pika.ConnectionParameters(host=os.environ.get('RABBITMQ_HOST', 'rabbitmq'))
+        self.host = os.getenv('RABBITMQ_HOST') or 'rabbitmq'
+        print(self.host)
+        self.connection_parameters=pika.ConnectionParameters(host=self.host)
         self.connection = None
         self.channel = None
         self.publish_queue = None
