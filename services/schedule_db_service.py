@@ -67,8 +67,8 @@ class ScheduleDBService:
         return await schedule.replace()
     
     async def delete_schedule(self, schedule_id: str) -> None:
-        schedule = await self.get_schedule_by_id(schedule_id)
         
+        schedule = await self.db.get(ObjectId(schedule_id))
         await schedule.delete_one()
 
     async def save_many_schedules(self, schedules: List[Schedule]):
