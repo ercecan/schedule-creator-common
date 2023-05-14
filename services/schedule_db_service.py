@@ -74,6 +74,6 @@ class ScheduleDBService:
         await self.db.insert_many(schedules)
     
     async def add_future_plan(self, schedule_id: str, future_plan: List[FuturePlan]):
-        schedule = await self.get_schedule_by_id(schedule_id)
+        schedule = await self.db.get(ObjectId(schedule_id))
         schedule.future_plan = future_plan
         await schedule.replace()

@@ -102,7 +102,7 @@ class PrerequisitiesFuturePlanConstraint(Constraint[Course, bool]):
         return False
 
 class YearFuturePlanConstraint(Constraint[Course, bool]):
-    def satisfied(self, assigned_courses: List[OpenedCourseSearchDto], student: StudentSearchDto) -> bool:
+    def satisfied(self, assigned_courses: List[Course], student: StudentSearchDto) -> bool:
         if len(assigned_courses) == 0:
             return True
 
@@ -112,7 +112,7 @@ class YearFuturePlanConstraint(Constraint[Course, bool]):
         return student.year in years
 
 class MajorFuturePlanConstraint(Constraint[Course, bool]):
-    def satisfied(self, assigned_courses: List[OpenedCourseSearchDto], student: StudentSearchDto) -> bool:
+    def satisfied(self, assigned_courses: List[Course], student: StudentSearchDto) -> bool:
         if len(assigned_courses) == 0:
             return True
 
@@ -122,12 +122,12 @@ class MajorFuturePlanConstraint(Constraint[Course, bool]):
             return True
         
         for major_restriction in last_course.major_restrictions:
-            if major_restriction not in [major.code for major in student.major]:
-                return False
-        return True
+            if major_restriction in [major.code for major in student.major]:
+                return True
+        return False
 
 class MaxCreditFuturePlanConstraint(Constraint[OpenedCourseSearchDto, bool]):
-    def satisfied(self, assigned_courses: List[OpenedCourseSearchDto], student: StudentSearchDto) -> bool:
+    def satisfied(self, assigned_courses: List[Course], student: StudentSearchDto) -> bool:
         if len(assigned_courses) == 0:
             return True
 
@@ -135,8 +135,8 @@ class MaxCreditFuturePlanConstraint(Constraint[OpenedCourseSearchDto, bool]):
             return False
         return True
 
-class MinCreditFuturePlanConstraint(Constraint[OpenedCourseSearchDto, bool]):
-    def satisfied(self, assigned_courses: List[OpenedCourseSearchDto], student: StudentSearchDto) -> bool:
+class MinCreditFuturePlanConstraint(Constraint[Course, bool]):
+    def satisfied(self, assigned_courses: List[Course], student: StudentSearchDto) -> bool:
         if len(assigned_courses) == 0:
             return True
 
