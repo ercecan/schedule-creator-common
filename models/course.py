@@ -15,7 +15,6 @@ from .time import Term, TimeSlot
 class Course(Document):
     name: str
     code: str
-    crn: str
     ects: int
     credits: int
     language: Languages = Languages.ENGLISH
@@ -43,6 +42,7 @@ class TakenCourse(BaseModel):
 class OpenedCourse(Document, BaseModel):
     course_id: str
     term: Term
+    crn: str
     time_slot: List[TimeSlot]
     classroom: Optional[Classroom] = None
     capacity: Optional[int] = 0
