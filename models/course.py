@@ -24,7 +24,6 @@ class Course(Document):
     description: Optional[str] = None
     semester: Optional[Semesters] = None
     recommended_semester: Optional[int] = None
-    instructor: Optional[str] = None
     is_elective: Optional[bool] = False
     tag: Optional[Tags] = None
     
@@ -47,6 +46,7 @@ class OpenedCourse(Document, BaseModel):
     classroom: Optional[Classroom] = None
     capacity: Optional[int] = 0
     teaching_method: Optional[TeachingMethods] = TeachingMethods.ONSITE
+    instructor: Optional[str] = None
     
 
     class Settings:
