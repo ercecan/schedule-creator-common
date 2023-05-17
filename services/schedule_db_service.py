@@ -5,11 +5,13 @@ from typing import List
 from dtos.schedule_dto import ScheduleDto
 from models.time import Term
 from services.opened_course_db_service import OpenedCourseDBService
+from services.course_db_service import CourseDBService
 class ScheduleDBService:
 
     def __init__(self):
         self.db = Schedule
         self.opened_course_db_service = OpenedCourseDBService()
+        self.course_db_service = CourseDBService()
     
     async def get_schedule_by_id(self, schedule_id: str) -> ScheduleDto:
         schedule = await self.db.get(ObjectId(schedule_id))
@@ -27,7 +29,7 @@ class ScheduleDBService:
         return schedule_dto
     
     async def get_schedule_by_name(self, schedule_name: str) -> Schedule:
-        schedule =await self.db.find_one(Schedule.name == schedule_name)
+        schedule = await self.db.find_one(Schedule.name == schedule_name)
         courses = await self.opened_course_db_service.get_opened_courses_by_course_ids(schedule.courses, schedule.term)
         schedule_dto = ScheduleDto()
         schedule_dto.id = str(schedule.id)
@@ -45,13 +47,22 @@ class ScheduleDBService:
         schedules_dto = []
         for schedule in schedules:
             courses = await self.opened_course_db_service.get_opened_courses_by_ids(schedule.courses)
+            if schedule.future_plan is not None:
+                future_plan = []
+                for future_plan in schedule.future_plan:
+                    courses = await self.course_db_service.get_courses_by_ids(future_plan.course_ids)
+                    course_names = [course.code + " - " + course.name for course in courses]
+                    future_plan.append({
+                        "course_names": course_names,
+                        "term": future_plan.term
+                    })
             schedule_dto = ScheduleDto()
             schedule_dto.id = str(schedule.id)
             schedule_dto.name = schedule.name
             schedule_dto.courses = courses
             schedule_dto.term = schedule.term
             schedule_dto.score = schedule.score
-            schedule_dto.future_plan = schedule.future_plan
+            schedule_dto.future_plan = future_plan
             schedule_dto.preferences = schedule.preferences
             schedule_dto.student_id = schedule.student_id
             schedules_dto.append(schedule_dto)
