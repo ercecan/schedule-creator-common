@@ -1,3 +1,4 @@
+from models.course import Course
 from models.school import School
 from bson import ObjectId
 from services.course_db_service import CourseDBService
@@ -29,7 +30,7 @@ class SchoolDBService:
     
     async def get_major_plan_by_name(self, school_name: str, major_plan_name: str) -> MajorPlanDto:
         school = await self.get_school_by_name(school_name)
-        for major_plan in school.major_plans:
+        for major_plan in school.majors:
             if major_plan.name == major_plan_name:
                 major_plan_dto = MajorPlanDto()
                 major_plan_dto.name = major_plan.name
@@ -38,5 +39,9 @@ class SchoolDBService:
                 major_plan_dto.total_credits = major_plan.total_credits
                 major_plan_dto.courses = await CourseDBService().get_courses_by_ids(major_plan.course_ids)
                 return major_plan_dto
-        
-
+    
+    async def get_all_course_ids(self, school_id: str, major_plan_name: str) -> Course:
+        school = await self.get_school_by_id(school_id)
+        for major_plan in school.majors:
+            if major_plan.name == major_plan_name:
+                return major_plan.course_ids
