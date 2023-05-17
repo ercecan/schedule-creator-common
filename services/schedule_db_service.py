@@ -48,11 +48,11 @@ class ScheduleDBService:
         for schedule in schedules:
             courses = await self.opened_course_db_service.get_opened_courses_by_ids(schedule.courses)
             if schedule.future_plan is not None:
-                future_plan = []
+                future_plan_ = []
                 for future_plan in schedule.future_plan:
                     courses = await self.course_db_service.get_courses_by_ids(future_plan.course_ids)
                     course_names = [course.code + " - " + course.name for course in courses]
-                    future_plan.append({
+                    future_plan_.append({
                         "course_names": course_names,
                         "term": future_plan.term
                     })
@@ -62,7 +62,7 @@ class ScheduleDBService:
             schedule_dto.courses = courses
             schedule_dto.term = schedule.term
             schedule_dto.score = schedule.score
-            schedule_dto.future_plan = future_plan
+            schedule_dto.future_plan = future_plan_
             schedule_dto.preferences = schedule.preferences
             schedule_dto.student_id = schedule.student_id
             schedules_dto.append(schedule_dto)
