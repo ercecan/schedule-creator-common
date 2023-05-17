@@ -32,7 +32,7 @@ class OpenedCourseDto(BaseModel):
     is_elective: Optional[bool] = False
     tag: Optional[str] = None
     time: Optional[List[Any]] = None
-    classroom: Optional[str] = None
+    classroom: Optional[Any] = None
     capacity: Optional[int] = 0
     teaching_method: Optional[str] = None
     term: Any = None
