@@ -44,6 +44,8 @@ class OpenedCourseSearchDto:
     classroom: Optional[Classroom] = None
     capacity: Optional[int] = 0
     teaching_method: Optional[TeachingMethods] = TeachingMethods.ONSITE
+    instructor: Optional[str] = None
+    crn: str
 
     def __hash__(self) -> int:
         return hash(self.id)
