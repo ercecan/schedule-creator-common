@@ -54,7 +54,7 @@ class YearConstraint(Constraint[OpenedCourseSearchDto, bool]):
             return True
 
         years = list(assigned_courses.keys())[-1].course.year_restrictions
-        if years == None:
+        if years == None or years == []:
             return True
         return any(i <= student.year for i in years)
 
