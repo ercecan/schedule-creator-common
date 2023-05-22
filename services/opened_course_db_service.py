@@ -40,7 +40,8 @@ class OpenedCourseDBService:
 
     async def get_opened_courses_by_course_ids(self, course_ids: List[str], term: Term) -> List[OpenedCourseSearchDto]:
         opened_course_dtos = []
-        opened_courses = await self.db.find(In(OpenedCourse.id, course_ids), OpenedCourse.term == term).to_list()
+        query = {"$or": [{"term.semester": term.semester}, {"term.semester": "fall_and_spring"}, {"term.semester": "all"}], "term.year": term.year, "course_id": {"$in": course_ids}}
+        opened_courses = await self.db.find(query).to_list()
         courses = await self.course_db_service.get_courses_by_ids(course_ids)
         print("print", opened_courses, courses)
         for opened_course in opened_courses:
