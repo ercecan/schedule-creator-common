@@ -8,7 +8,7 @@ from models.classroom import Classroom
 from models.time import TimeSlot
 from pydantic import BaseModel
 
-class TakenCourseDto:
+class TakenCourseDto(BaseModel):
     id: Optional[str] = None
     course: Course
     grade: Grades
