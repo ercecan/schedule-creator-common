@@ -15,13 +15,13 @@ class Student(Document):
     email: str
     password: str
     gpa: Optional[float] = 0.0
-    remaining_courses: Optional[List[str]] = None
-    taken_courses: Optional[List[TakenCourse]] = None # Dictionary olursa, O(1) search
+    remaining_courses: Optional[List[str]] = []
+    taken_courses: Optional[List[TakenCourse]] = [] # Dictionary olursa, O(1) search
     taken_credits: Optional[int] = 0
     remaining_credits: Optional[int] = 0
     remaining_tags: Optional[dict] = {tag.value: 0 for tag in Tags}
     school_id: Optional[str] = None
-    major: List[Major] = None
+    major: List[Major] = []
     year: Optional[int] = 0
     student_type: Optional[StudentTypes] = StudentTypes.BACHELOR
 
