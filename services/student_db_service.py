@@ -42,7 +42,7 @@ class StudentDBService:
         if student.taken_courses is None:
             return []
         ids = [ObjectId(taken.course_id) for taken in student.taken_courses]
-        courses =  self.course_db_service.get_courses_by_ids(ids)
+        courses = await self.course_db_service.get_courses_by_ids(ids)
         taken_courses = []
         for taken in student.taken_courses:
             for course in courses:
