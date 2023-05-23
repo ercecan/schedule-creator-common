@@ -85,6 +85,17 @@ class CapacityConstraint(Constraint[OpenedCourseSearchDto, bool]):
             return False
         return True
 
+class CourseConstraint(Constraint[OpenedCourseSearchDto, bool]):
+    def satisfied(self, assigned_courses: List[OpenedCourseSearchDto], student: StudentSearchDto) -> bool:
+        if len(assigned_courses) == 0:
+            return True
+        
+        courses = list(assigned_courses.keys())
+        last_course = list(assigned_courses.keys())[-1]
+        if last_course.course.code in [course.course.code for course in courses[:-1]]:
+            return False
+        return True
+
 
 class PrerequisitiesFuturePlanConstraint(Constraint[Course, bool]):
 
