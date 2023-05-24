@@ -15,7 +15,7 @@ class ScheduleDBService:
     
     async def get_schedule_by_id(self, schedule_id: str) -> ScheduleDto:
         schedule = await self.db.get(ObjectId(schedule_id))
-        courses = await self.opened_course_db_service.get_opened_courses_by_course_ids(schedule.courses, schedule.term)
+        courses = await self.opened_course_db_service.get_opened_courses_by_ids(schedule.courses)
 
         schedule_dto = ScheduleDto()
         schedule_dto.id = str(schedule.id)
@@ -30,7 +30,7 @@ class ScheduleDBService:
     
     async def get_schedule_by_name(self, schedule_name: str) -> Schedule:
         schedule = await self.db.find_one(Schedule.name == schedule_name)
-        courses = await self.opened_course_db_service.get_opened_courses_by_course_ids(schedule.courses, schedule.term)
+        courses = await self.opened_course_db_service.get_opened_courses_by_ids(schedule.courses)
         schedule_dto = ScheduleDto()
         schedule_dto.id = str(schedule.id)
         schedule_dto.name = schedule.name
