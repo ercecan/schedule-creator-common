@@ -103,7 +103,7 @@ class PrerequisitiesFuturePlanConstraint(Constraint[Course, bool]):
         if len(assigned_courses) == 0:
             return True
         last_course = list(assigned_courses.keys())[-1]
-        if last_course.prereqs == None:
+        if last_course.prereqs == None or last_course.prereqs == []:
             return True
         
         for prereq in last_course.prereqs:
@@ -118,7 +118,7 @@ class YearFuturePlanConstraint(Constraint[Course, bool]):
             return True
 
         years = list(assigned_courses.keys())[-1].year_restrictions
-        if years == None:
+        if years == None or years == []:
             return True
         return student.year in years
 
@@ -129,7 +129,7 @@ class MajorFuturePlanConstraint(Constraint[Course, bool]):
 
         last_course = list(assigned_courses.keys())[-1]
 
-        if last_course.major_restrictions == None:
+        if last_course.major_restrictions == None or last_course.major_restrictions == []:
             return True
         
         for major_restriction in last_course.major_restrictions:
