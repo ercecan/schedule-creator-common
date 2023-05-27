@@ -65,7 +65,7 @@ class MajorConstraint(Constraint[OpenedCourseSearchDto, bool]):
 
         last_course = list(assigned_courses.keys())[-1]
 
-        if last_course.course.major_restrictions == None or last_course.course.major_restrictions = []:
+        if last_course.course.major_restrictions == None or last_course.course.major_restrictions == []:
             return True
         
 
