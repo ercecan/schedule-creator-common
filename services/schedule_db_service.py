@@ -56,6 +56,7 @@ class ScheduleDBService:
             schedule_dto.future_plan = schedule.future_plan
             schedule_dto.preferences = schedule.preferences
             schedule_dto.student_id = schedule.student_id
+            schedule_dto.time = schedule.time
             schedules_dto.append(schedule_dto)
             if schedule.future_plan is not None:
                 future_plan_ = []
