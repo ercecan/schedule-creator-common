@@ -1,6 +1,5 @@
 from typing import List, Any
 from dtos.course_dto import OpenedCourseSearchDto
-from datetime import datetime
 
 class ScheduleDto:
     name: str
@@ -10,4 +9,4 @@ class ScheduleDto:
     future_plan: List[Any] = None
     preferences: List[str] = None
     student_id: str = None
-    time: datetime = None    
+    time: Any = None    

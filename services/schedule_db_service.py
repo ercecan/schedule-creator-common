@@ -40,25 +40,7 @@ class ScheduleDBService:
         schedule_dto.future_plan = schedule.future_plan
         schedule_dto.preferences = schedule.preferences
         schedule_dto.student_id = schedule.student_id
-        return schedule_dto
-    
-    async def get_schedules_by_student_id(self, student_id: str, term: Term) -> List[ScheduleDto]:
-        schedules = await self.db.find(Schedule.student_id == student_id).to_list()
-        schedules_dto = []
-        for schedule in schedules:
-            courses = await self.opened_course_db_service.get_opened_courses_by_ids(schedule.courses)
-            schedule_dto = ScheduleDto()
-            schedule_dto.id = str(schedule.id)
-            schedule_dto.name = schedule.name
-            schedule_dto.courses = courses
-            schedule_dto.term = schedule.term
-            schedule_dto.score = schedule.score
-            schedule_dto.future_plan = schedule.future_plan
-            schedule_dto.preferences = schedule.preferences
-            schedule_dto.student_id = schedule.student_id
-            schedule_dto.time = schedule.time
-            schedules_dto.append(schedule_dto)
-            if schedule.future_plan is not None:
+        if schedule.future_plan is not None:
                 future_plan_ = []
                 for future_plan in schedule.future_plan:
                     courses = await self.course_db_service.get_courses_by_ids(future_plan.course_ids)
@@ -68,6 +50,34 @@ class ScheduleDBService:
                         "term": future_plan.term
                     })
                 schedule_dto.future_plan = future_plan_
+        return schedule_dto
+    
+    async def get_schedules_by_student_id(self, student_id: str, term: Term) -> List[ScheduleDto]:
+        schedules = await self.db.find(Schedule.student_id == student_id).to_list()
+        schedules_dto = []
+        for schedule in schedules:
+            # courses = await self.opened_course_db_service.get_opened_courses_by_ids(schedule.courses)
+            schedule_dto = ScheduleDto()
+            schedule_dto.id = str(schedule.id)
+            schedule_dto.name = schedule.name
+            # schedule_dto.courses = courses
+            schedule_dto.term = schedule.term
+            schedule_dto.score = schedule.score
+            schedule_dto.future_plan = schedule.future_plan
+            schedule_dto.preferences = schedule.preferences
+            schedule_dto.student_id = schedule.student_id
+            schedule_dto.time = schedule.time
+            schedules_dto.append(schedule_dto)
+            # if schedule.future_plan is not None:
+            #     future_plan_ = []
+            #     for future_plan in schedule.future_plan:
+            #         courses = await self.course_db_service.get_courses_by_ids(future_plan.course_ids)
+            #         course_names = [course.code + " - " + course.name for course in courses]
+            #         future_plan_.append({
+            #             "course_names": course_names,
+            #             "term": future_plan.term
+            #         })
+            #     schedule_dto.future_plan = future_plan_
         return schedules_dto
     
     @staticmethod
