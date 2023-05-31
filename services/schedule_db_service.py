@@ -26,6 +26,9 @@ class ScheduleDBService:
         schedule_dto.future_plan = schedule.future_plan
         schedule_dto.preferences = schedule.preferences
         schedule_dto.student_id = schedule.student_id
+        if schedule.future_plan is not None:
+                future_plan_ = await self.add_future_plan(schedule.future_plan)
+                schedule_dto.future_plan = future_plan_
         return schedule_dto
     
     async def get_schedule_by_name(self, schedule_name: str) -> Schedule:
@@ -41,14 +44,7 @@ class ScheduleDBService:
         schedule_dto.preferences = schedule.preferences
         schedule_dto.student_id = schedule.student_id
         if schedule.future_plan is not None:
-                future_plan_ = []
-                for future_plan in schedule.future_plan:
-                    courses = await self.course_db_service.get_courses_by_ids(future_plan.course_ids)
-                    course_names = [course.code + " - " + course.name for course in courses]
-                    future_plan_.append({
-                        "course_names": course_names,
-                        "term": future_plan.term
-                    })
+                future_plan_ = await self.add_future_plan(schedule.future_plan)
                 schedule_dto.future_plan = future_plan_
         return schedule_dto
     
@@ -100,3 +96,15 @@ class ScheduleDBService:
         schedule = await self.db.get(ObjectId(schedule_id))
         schedule.future_plan = future_plan
         await schedule.replace()
+
+    async def map_future_plan(self, schedule_future_plan):
+        future_plan_ = []
+        for future_plan in schedule_future_plan:
+            courses = await self.course_db_service.get_courses_by_ids(future_plan.course_ids)
+            course_names = [course.code + " - " + course.name for course in courses]
+            future_plan_.append({
+                "course_names": course_names,
+                "term": future_plan.term
+            })
+        return future_plan_
+        
