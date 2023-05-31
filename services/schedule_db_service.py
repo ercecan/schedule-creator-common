@@ -27,7 +27,7 @@ class ScheduleDBService:
         schedule_dto.preferences = schedule.preferences
         schedule_dto.student_id = schedule.student_id
         if schedule.future_plan is not None:
-                future_plan_ = await self.add_future_plan(schedule.future_plan)
+                future_plan_ = await self.map_future_plan(schedule.future_plan)
                 schedule_dto.future_plan = future_plan_
         return schedule_dto
     
@@ -44,7 +44,7 @@ class ScheduleDBService:
         schedule_dto.preferences = schedule.preferences
         schedule_dto.student_id = schedule.student_id
         if schedule.future_plan is not None:
-                future_plan_ = await self.add_future_plan(schedule.future_plan)
+                future_plan_ = await self.map_future_plan(schedule.future_plan)
                 schedule_dto.future_plan = future_plan_
         return schedule_dto
     
