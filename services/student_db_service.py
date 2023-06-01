@@ -5,6 +5,7 @@ from typing import List
 from dtos.course_dto import TakenCourseDto
 from services.course_db_service import CourseDBService
 
+
 class StudentDBService:
 
     def __init__(self):
@@ -37,7 +38,6 @@ class StudentDBService:
         await student.delete()
     
     async def get_taken_courses(self, student_id: str) -> List[TakenCourseDto]:
-
         student = await self.get_student_by_id(student_id)
         if student.taken_courses is None:
             return []
@@ -46,8 +46,8 @@ class StudentDBService:
         taken_courses = []
         for taken in student.taken_courses:
             for course in courses:
-                if course.id == taken.course_id:
-                    taken_courses.append(TakenCourseDto(id=taken.id, course=course, grade=taken.grade, term=taken.term))
+                if str(course.id) == str(taken.course_id):
+                    taken_courses.append(TakenCourseDto(id=taken.course_id, course=course, grade=taken.grade, term=taken.term))
         return taken_courses
     
     async def get_remaining_courses_ids(self, student_id: str) -> List[Course]:
