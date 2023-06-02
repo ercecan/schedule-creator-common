@@ -49,3 +49,10 @@ class OpenedCourseSearchDto:
 
     def __hash__(self) -> int:
         return hash(self.id)
+
+
+class UpdateTakenCourseDTO(BaseModel):
+    student_id: str
+    course_id: str
+    grade: Grades
+    term: Term
