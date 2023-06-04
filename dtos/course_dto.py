@@ -56,3 +56,9 @@ class UpdateTakenCourseDTO(BaseModel):
     course_id: str
     grade: Grades
     term: Term
+        
+class AddTakenCourseDTO(BaseModel):
+    student_id: str
+    course_id: str # course.id
+    grade: Grades
+    term: Term
