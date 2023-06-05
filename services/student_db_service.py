@@ -54,5 +54,9 @@ class StudentDBService:
         student = await self.get_student_by_id(student_id)
         if student.remaining_courses is None:
             return []
+        print("asd")
+        print(student.remaining_courses)
+        print("asd")
         ids = [remaining for remaining in student.remaining_courses]
+        print(ids)
         return ids
