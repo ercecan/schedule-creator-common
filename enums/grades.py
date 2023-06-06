@@ -10,6 +10,7 @@ class Grades(Enum):
     DD = 'DD'
     FD = 'FD'
     FF = 'FF'
+    BL = 'BL'
 
     def __lt__(self, other):
         return self.value < other.value
