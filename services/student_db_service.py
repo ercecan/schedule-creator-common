@@ -62,5 +62,5 @@ class StudentDBService:
         if student.remaining_courses is None:
             return []
         ids = [remaining for remaining in student.remaining_courses]
-        courses = self.course_db_service.get_courses_by_ids(ids)
+        courses = await self.course_db_service.get_courses_by_ids(ids)
         return courses
