@@ -21,5 +21,8 @@ class RedisService:
 
     def get_val(self, key):
         response = self.redis.get(key)
+        if response ==  None:
+            return None
         json_response = json.loads(response)
         return json_response
+
