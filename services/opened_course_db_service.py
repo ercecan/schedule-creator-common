@@ -43,7 +43,7 @@ class OpenedCourseDBService:
         query = {"$or": [{"term.semester": term.semester}, {"term.semester": "fall_and_spring"}, {"term.semester": "all"}], "term.year": term.year, "course_id": {"$in": course_ids}}
         opened_courses = await self.db.find(query).to_list()
         courses = await self.course_db_service.get_courses_by_ids(course_ids)
-        print("print", opened_courses, courses)
+        #print("print", opened_courses, courses)
         for opened_course in opened_courses:
             for course in courses:
                 if str(course.id) == opened_course.course_id:
